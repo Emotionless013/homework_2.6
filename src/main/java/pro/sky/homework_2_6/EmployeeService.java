@@ -5,55 +5,41 @@ import pro.sky.homework_2_6.exeptions.EmployeeAlreadyAddedException;
 import pro.sky.homework_2_6.exeptions.EmployeeNotFoundException;
 import pro.sky.homework_2_6.exeptions.EmployeeStorageIsFullException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class EmployeeService {
 
-    private Employee[] employeeBook = new Employee[1];
+    static List<Employee> employeeBook = new ArrayList<>(2);
 
-    public Employee getEmployee(int i) {
-        return employeeBook[i];
+    public static Employee getEmployee(int i) {
+        return employeeBook.get(i);
     }
 
     //добавляем сотрудника
-    public void addEmployee(String firstName, String lastName) {
+    public static void addEmployee(String firstName, String lastName) {
         try {
-            if (findEmployee(firstName, lastName) == true) {
-                throw new EmployeeAlreadyAddedException();
-            }
+            findEmployee(firstName, lastName);
+            throw new EmployeeAlreadyAddedException();
         } catch (EmployeeNotFoundException z) {
-            int j = -1;
-            for (int i = 0; i < employeeBook.length; i++) {
-                if (employeeBook[i] == null) {
-                    j = i;
-                    break;
+            employeeBook.add(new Employee(firstName, lastName));
+            return;
                 }
-            }
-            if (j != -1) {
-                employeeBook[j] = new Employee(firstName, lastName);
-            } else throw new EmployeeStorageIsFullException();
-        }
     }
 
     //удаляем сотрудника
-    public void removeEmployee(String firstName, String lastName) {
-        int j = -1;
-        for (int i = 0; i < employeeBook.length; i++) {
-            if (employeeBook[i] != null && employeeBook[i].getFirstName() == firstName &&
-                    employeeBook[i].getLastName() == lastName) {
-                j = i;
-            }
-        }
-        if (j != -1) {
-        employeeBook[j] = null;
-        } else throw new EmployeeNotFoundException();
+    public static void removeEmployee(String firstName, String lastName) {
+        int i = findEmployee(firstName, lastName);
+        employeeBook.set(i, null);
     }
 
     //ищем сотрудника
-    public boolean findEmployee(String firstName, String lastName) {
+    public static int findEmployee(String firstName, String lastName) {
         Employee employeeCheck = new Employee(firstName, lastName);
-        for (Employee employee : employeeBook) {
-            if (employee != null && employeeCheck.equals(employee)) {
-                return true;
+        for (int i = 0; i < employeeBook.size(); i++) {
+            if (employeeBook.get(i) != null && employeeCheck.equals(employeeBook.get(i))) {
+                return i;
             }
         }
         throw new EmployeeNotFoundException();
