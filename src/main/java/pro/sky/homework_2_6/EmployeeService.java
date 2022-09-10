@@ -6,42 +6,43 @@ import pro.sky.homework_2_6.exeptions.EmployeeNotFoundException;
 import pro.sky.homework_2_6.exeptions.EmployeeStorageIsFullException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmployeeService {
 
-    static List<Employee> employeeBook = new ArrayList<>(2);
+    static Map<String, Employee> employeeBook = new HashMap<>(2);
 
-    public static Employee getEmployee(int i) {
+    public static Employee getEmployee(String i) {
         return employeeBook.get(i);
     }
 
     //добавляем сотрудника
     public static void addEmployee(String firstName, String lastName) {
+        Employee employeeToAdd = new Employee(firstName, lastName);
         try {
             findEmployee(firstName, lastName);
             throw new EmployeeAlreadyAddedException();
         } catch (EmployeeNotFoundException z) {
-            employeeBook.add(new Employee(firstName, lastName));
-            return;
+            employeeBook.put(employeeToAdd.getFullName(), employeeToAdd);
                 }
     }
 
     //удаляем сотрудника
     public static void removeEmployee(String firstName, String lastName) {
-        int i = findEmployee(firstName, lastName);
-        employeeBook.set(i, null);
+        findEmployee(firstName, lastName);
+        Employee employeeToRemove = new Employee(firstName, lastName);
+        employeeBook.remove(employeeToRemove.getFullName());
     }
 
     //ищем сотрудника
-    public static int findEmployee(String firstName, String lastName) {
+    public static Employee findEmployee(String firstName, String lastName) {
         Employee employeeCheck = new Employee(firstName, lastName);
-        for (int i = 0; i < employeeBook.size(); i++) {
-            if (employeeBook.get(i) != null && employeeCheck.equals(employeeBook.get(i))) {
-                return i;
+        if (employeeBook.containsKey(employeeCheck.getFullName())) {
+                return employeeBook.get(employeeCheck.getFullName());
             }
-        }
         throw new EmployeeNotFoundException();
     }
 }
