@@ -15,8 +15,8 @@ public class EmployeeService {
 
     static Map<String, Employee> employeeBook = new HashMap<>(2);
 
-    public static Employee getEmployee(String i) {
-        return employeeBook.get(i);
+    public static Employee getEmployee(String fullName) {
+        return employeeBook.get(fullName);
     }
 
     //добавляем сотрудника
@@ -27,7 +27,7 @@ public class EmployeeService {
             throw new EmployeeAlreadyAddedException();
         } catch (EmployeeNotFoundException z) {
             employeeBook.put(employeeToAdd.getFullName(), employeeToAdd);
-                }
+        }
     }
 
     //удаляем сотрудника
@@ -41,8 +41,8 @@ public class EmployeeService {
     public static Employee findEmployee(String firstName, String lastName) {
         Employee employeeCheck = new Employee(firstName, lastName);
         if (employeeBook.containsKey(employeeCheck.getFullName())) {
-                return employeeBook.get(employeeCheck.getFullName());
-            }
+            return employeeBook.get(employeeCheck.getFullName());
+        }
         throw new EmployeeNotFoundException();
     }
 }
