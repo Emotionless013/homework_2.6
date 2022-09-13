@@ -8,6 +8,7 @@ import pro.sky.homework_2_6.exeptions.EmployeeNotFoundException;
 import pro.sky.homework_2_6.exeptions.EmployeeStorageIsFullException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static pro.sky.homework_2_6.EmployeeService.employeeBook;
@@ -38,11 +39,10 @@ public class EmployeeController {
 
     @RequestMapping("/find")
     public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        int i = EmployeeService.findEmployee(firstName, lastName);
-        return EmployeeService.getEmployee(i);
+        return EmployeeService.findEmployee(firstName, lastName);
     }
     @RequestMapping("/printlist")
-    public ArrayList printList() {
-        return (ArrayList) employeeBook;
+    public HashMap printList() {
+        return (HashMap) employeeBook;
     }
 }
