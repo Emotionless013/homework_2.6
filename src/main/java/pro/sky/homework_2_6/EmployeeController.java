@@ -20,16 +20,17 @@ public class EmployeeController {
     }
 
     @RequestMapping("/add")
-    public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        EmployeeService.addEmployee(firstName, lastName);
-        Employee employee = new Employee(firstName, lastName);
+    public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName,
+                                @RequestParam int departmentID, @RequestParam double employeeSalary) {
+        EmployeeService.addEmployee(firstName, lastName, departmentID, employeeSalary);
+        Employee employee = new Employee(firstName, lastName, departmentID, employeeSalary);
         return getEmployee(firstName + " " + lastName);
     }
 
     @RequestMapping("/remove")
-    public Employee removeEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+    public String removeEmployee(@RequestParam String firstName, @RequestParam String lastName) {
         EmployeeService.removeEmployee(firstName, lastName);
-        return new Employee(firstName, lastName);
+        return firstName + " " + lastName + " удален";
     }
 
     @RequestMapping("/find")
@@ -38,7 +39,7 @@ public class EmployeeController {
     }
 
     @RequestMapping("/printlist")
-    public HashMap printList() {
-        return (HashMap) employeeBook;
+    public HashMap<String, Employee> printList() {
+        return (HashMap<String, Employee>) employeeBook;
     }
 }
