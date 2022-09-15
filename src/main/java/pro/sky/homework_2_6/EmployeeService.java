@@ -3,12 +3,9 @@ package pro.sky.homework_2_6;
 import org.springframework.stereotype.Service;
 import pro.sky.homework_2_6.exeptions.EmployeeAlreadyAddedException;
 import pro.sky.homework_2_6.exeptions.EmployeeNotFoundException;
-import pro.sky.homework_2_6.exeptions.EmployeeStorageIsFullException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -20,8 +17,8 @@ public class EmployeeService {
     }
 
     //добавляем сотрудника
-    public static void addEmployee(String firstName, String lastName) {
-        Employee employeeToAdd = new Employee(firstName, lastName);
+    public static void addEmployee(String firstName, String lastName, int employeeDepartment, double employeeSalary) {
+        Employee employeeToAdd = new Employee(firstName, lastName, employeeDepartment, employeeSalary);
         try {
             findEmployee(firstName, lastName);
             throw new EmployeeAlreadyAddedException();
@@ -33,16 +30,18 @@ public class EmployeeService {
     //удаляем сотрудника
     public static void removeEmployee(String firstName, String lastName) {
         findEmployee(firstName, lastName);
-        Employee employeeToRemove = new Employee(firstName, lastName);
-        employeeBook.remove(employeeToRemove.getFullName());
+        String employeeToRemove = firstName + " " + lastName;
+        employeeBook.remove(employeeToRemove);
     }
 
     //ищем сотрудника
     public static Employee findEmployee(String firstName, String lastName) {
-        Employee employeeCheck = new Employee(firstName, lastName);
-        if (employeeBook.containsKey(employeeCheck.getFullName())) {
-            return employeeBook.get(employeeCheck.getFullName());
+        String employeeCheck = firstName + " " + lastName;
+        if (employeeBook.containsKey(employeeCheck)) {
+            return employeeBook.get(employeeCheck);
         }
         throw new EmployeeNotFoundException();
     }
 }
+
+

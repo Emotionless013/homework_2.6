@@ -6,10 +6,14 @@ public class Employee {
     private final String firstName;
     private final String lastName;
     private final String fullName;
+    private int departmentID;
+    private double employeeSalary;
 
-    public Employee(String firstName, String lastName) {
+    public Employee(String firstName, String lastName, int departmentID, double employeeSalary) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.departmentID = departmentID;
+        this.employeeSalary = employeeSalary;
         this.fullName = firstName + " " + lastName;
     }
 
@@ -23,6 +27,22 @@ public class Employee {
 
     public String getFullName() {
         return fullName;
+    }
+
+    public int getDepartmentID() {
+        return departmentID;
+    }
+
+    public double getEmployeeSalary() {
+        return employeeSalary;
+    }
+
+    public void setDepartmentID(int departmentID) {
+        this.departmentID = departmentID;
+    }
+
+    public void setEmployeeSalary(double employeeSalary) {
+        this.employeeSalary = employeeSalary;
     }
 
     @Override
