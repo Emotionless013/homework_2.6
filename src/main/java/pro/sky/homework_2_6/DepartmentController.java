@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/departments")
@@ -16,24 +17,23 @@ public class DepartmentController {
     }
 
     @RequestMapping("/min-salary")
-    public List<Employee> minSalary(@RequestParam int departmentID) {
+    public Optional<Employee> minSalary(@RequestParam int departmentID) {
         return DepartmentService.minSalaryEmployeeDepartment(departmentID);
     }
 
     @RequestMapping("/max-salary")
-    public List<Employee> maxSalary(@RequestParam int departmentID) {
+    public Optional<Employee> maxSalary(@RequestParam int departmentID) {
         return DepartmentService.maxSalaryEmployeeDepartment(departmentID);
     }
 
     @RequestMapping("/all")
-    public List<Employee>  employeesDepartment (@RequestParam int departmentID) {
-        return DepartmentService.allEmployeesDepartment(departmentID);
+    public List<Employee> employeesDepartment(@RequestParam(defaultValue = "0") int departmentID) {
+        if (departmentID != 0) {
+            return DepartmentService.allEmployeesDepartment(departmentID);
+        } else {
+            return DepartmentService.everyEmployeesDepartment();
+        }
     }
-    @RequestMapping("/allDepartments")
-    public List<Employee>  everyEmployeesDepartment () {
-        return DepartmentService.everyEmployeesDepartment();
-    }
-
 }
 //http://localhost:8080/employee/add?firstName=Ivan&lastName=Petrov&departmentID=1&employeeSalary=100
 //http://localhost:8080/employee/add?firstName=Ivan&lastName=Ivanov&departmentID=2&employeeSalary=200
@@ -42,4 +42,4 @@ public class DepartmentController {
 //http://localhost:8080/departments/min-salary?departmentID=1
 //http://localhost:8080/departments/max-salary?departmentID=1
 //http://localhost:8080/departments/all?departmentID=1
-//http://localhost:8080/departments/allDepartments
+//http://localhost:8080/departments/all
