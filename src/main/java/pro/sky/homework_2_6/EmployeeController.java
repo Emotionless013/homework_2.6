@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 import static pro.sky.homework_2_6.EmployeeService.employeeBook;
-import static pro.sky.homework_2_6.EmployeeService.getEmployee;
 
 
 @RestController
@@ -21,20 +20,20 @@ public class EmployeeController {
 
     @RequestMapping("/add")
     public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName,
-                                @RequestParam int departmentID, @RequestParam double employeeSalary) {
-        EmployeeService.addEmployee(firstName, lastName, departmentID, employeeSalary);
-        Employee employee = new Employee(firstName, lastName, departmentID, employeeSalary);
-        return getEmployee(firstName + " " + lastName);
+                                @RequestParam int departmentID, @RequestParam double employeeSalary) throws Exception {
+            EmployeeService.checkInput(firstName, lastName);
+            return EmployeeService.addEmployee(firstName, lastName, departmentID, employeeSalary);
     }
 
     @RequestMapping("/remove")
-    public String removeEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        EmployeeService.removeEmployee(firstName, lastName);
-        return firstName + " " + lastName + " удален";
+    public Employee removeEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+        EmployeeService.checkInput(firstName, lastName);
+        return EmployeeService.removeEmployee(firstName, lastName);
     }
 
     @RequestMapping("/find")
     public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+        EmployeeService.checkInput(firstName, lastName);
         return EmployeeService.findEmployee(firstName, lastName);
     }
 
