@@ -1,8 +1,10 @@
 package pro.sky.homework_2_6;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.homework_2_6.exeptions.EmployeeAlreadyAddedException;
 import pro.sky.homework_2_6.exeptions.EmployeeNotFoundException;
+import pro.sky.homework_2_6.exeptions.InvalidArgumentExeption;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,30 +19,41 @@ public class EmployeeService {
     }
 
     //добавляем сотрудника
-    public static void addEmployee(String firstName, String lastName, int employeeDepartment, double employeeSalary) {
+    public static Employee addEmployee(String firstName, String lastName, int employeeDepartment, double employeeSalary) {
         Employee employeeToAdd = new Employee(firstName, lastName, employeeDepartment, employeeSalary);
         try {
             findEmployee(firstName, lastName);
             throw new EmployeeAlreadyAddedException();
         } catch (EmployeeNotFoundException z) {
             employeeBook.put(employeeToAdd.getFullName(), employeeToAdd);
+            return employeeToAdd;
         }
     }
 
     //удаляем сотрудника
-    public static void removeEmployee(String firstName, String lastName) {
+    public static Employee removeEmployee(String firstName, String lastName) {
         findEmployee(firstName, lastName);
-        String employeeToRemove = firstName + " " + lastName;
-        employeeBook.remove(employeeToRemove);
+        String employeeToRemove = createKey(firstName, lastName);
+        return employeeBook.remove(employeeToRemove);
     }
 
     //ищем сотрудника
     public static Employee findEmployee(String firstName, String lastName) {
-        String employeeCheck = firstName + " " + lastName;
+        String employeeCheck = createKey(firstName, lastName);
         if (employeeBook.containsKey(employeeCheck)) {
             return employeeBook.get(employeeCheck);
         }
         throw new EmployeeNotFoundException();
+    }
+
+    public static void checkInput(String firstName, String lastName) {
+        if (!StringUtils.isAlpha(firstName) && !StringUtils.isAlpha(lastName)) {
+            throw new InvalidArgumentExeption();
+        }
+    }
+    public static String createKey(String firstName, String lastName) {
+        return StringUtils.capitalize(firstName.toLowerCase()) + " " +
+                StringUtils.capitalize(lastName.toLowerCase());
     }
 }
 

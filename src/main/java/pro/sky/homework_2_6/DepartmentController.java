@@ -35,11 +35,3 @@ public class DepartmentController {
         }
     }
 }
-//http://localhost:8080/employee/add?firstName=Ivan&lastName=Petrov&departmentID=1&employeeSalary=100
-//http://localhost:8080/employee/add?firstName=Ivan&lastName=Ivanov&departmentID=2&employeeSalary=200
-//http://localhost:8080/employee/add?firstName=Petr&lastName=Ivanov&departmentID=2&employeeSalary=100
-//http://localhost:8080/employee/add?firstName=Petr&lastName=Petrov&departmentID=1&employeeSalary=200
-//http://localhost:8080/departments/min-salary?departmentID=1
-//http://localhost:8080/departments/max-salary?departmentID=1
-//http://localhost:8080/departments/all?departmentID=1
-//http://localhost:8080/departments/all
