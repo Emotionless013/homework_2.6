@@ -18,20 +18,20 @@ public class DepartmentController {
 
     @RequestMapping("/min-salary")
     public Optional<Employee> minSalary(@RequestParam int departmentID) {
-        return DepartmentService.minSalaryEmployeeDepartment(departmentID);
+        return departmentService.minSalaryEmployeeDepartment(departmentID);
     }
 
     @RequestMapping("/max-salary")
     public Optional<Employee> maxSalary(@RequestParam int departmentID) {
-        return DepartmentService.maxSalaryEmployeeDepartment(departmentID);
+        return departmentService.maxSalaryEmployeeDepartment(departmentID);
     }
 
     @RequestMapping("/all")
     public List<Employee> employeesDepartment(@RequestParam(defaultValue = "0") int departmentID) {
         if (departmentID != 0) {
-            return DepartmentService.allEmployeesDepartment(departmentID);
+            return departmentService.allEmployeesDepartment(departmentID);
         } else {
-            return DepartmentService.everyEmployeesDepartment();
+            return departmentService.everyEmployeesDepartment();
         }
     }
 }

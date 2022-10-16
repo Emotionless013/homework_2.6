@@ -15,29 +15,29 @@ public class DepartmentService {
     }
 
     //Ищем сотрудников с минимальной ЗП в отделе
-    protected static Optional<Employee> minSalaryEmployeeDepartment(int departmentID) {
-        return Optional.ofNullable(EmployeeService.getValues().stream().
+    protected  Optional<Employee> minSalaryEmployeeDepartment(int departmentID) {
+        return Optional.ofNullable(employeeService.getValues().stream().
                 filter(e -> e.getDepartmentID() == departmentID).
                 min(Comparator.comparing(Employee::getEmployeeSalary)).orElseThrow(EmployeeNotFoundException::new));
     }
 
     //Ищем сотрудников с максимальной ЗП в отделе
-    protected static Optional<Employee> maxSalaryEmployeeDepartment(int departmentID) {
-        return Optional.ofNullable(EmployeeService.getValues().stream().
+    protected  Optional<Employee> maxSalaryEmployeeDepartment(int departmentID) {
+        return Optional.ofNullable(employeeService.getValues().stream().
                 filter(e -> e.getDepartmentID() == departmentID).
                 max(Comparator.comparing(Employee::getEmployeeSalary)).orElseThrow(EmployeeNotFoundException::new));
     }
 
     //выводим данные отрудников отдела
-    protected static List<Employee> allEmployeesDepartment(int departmentID) {
-        return EmployeeService.getValues().stream().
+    protected  List<Employee> allEmployeesDepartment(int departmentID) {
+        return employeeService.getValues().stream().
                 filter(e -> e.getDepartmentID() == departmentID).
                 collect(Collectors.toList());
     }
 
     //список сотрудников, отсортированный по отделам
-    protected static List<Employee> everyEmployeesDepartment() {
-        return EmployeeService.getValues().stream().
+    protected  List<Employee> everyEmployeesDepartment() {
+        return employeeService.getValues().stream().
                 sorted(Comparator.comparing(Employee::getDepartmentID)).
                 collect(Collectors.toList());
     }

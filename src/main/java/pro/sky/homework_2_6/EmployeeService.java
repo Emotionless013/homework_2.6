@@ -12,23 +12,23 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeService {
 
-    public static Map<String, Employee> employeeBook = new HashMap<>(2);
+    public  Map<String, Employee> employeeBook = new HashMap<>(2);
 
 
-    public static Map<String, Employee> getEmployeeBook() {
+    public  Map<String, Employee> getEmployeeBook() {
         return employeeBook;
     }
 
-    public static Collection<Employee> getValues() {
+    public  Collection<Employee> getValues() {
         return getEmployeeBook().values();
     }
 
-    private static Employee getEmployee(String fullName) {
+    private  Employee getEmployee(String fullName) {
         return employeeBook.get(fullName);
     }
 
     //добавляем сотрудника
-    public static Employee addEmployee(String firstName, String lastName, int employeeDepartment, double employeeSalary) {
+    public  Employee addEmployee(String firstName, String lastName, int employeeDepartment, double employeeSalary) {
         Employee employeeToAdd = new Employee(firstName, lastName, employeeDepartment, employeeSalary);
         try {
             findEmployee(firstName, lastName);
@@ -40,14 +40,14 @@ public class EmployeeService {
     }
 
     //удаляем сотрудника
-    public static Employee removeEmployee(String firstName, String lastName) {
+    public  Employee removeEmployee(String firstName, String lastName) {
         findEmployee(firstName, lastName);
         String employeeToRemove = createKey(firstName, lastName);
         return employeeBook.remove(employeeToRemove);
     }
 
     //ищем сотрудника
-    public static Employee findEmployee(String firstName, String lastName) {
+    public  Employee findEmployee(String firstName, String lastName) {
         String employeeCheck = createKey(firstName, lastName);
         if (employeeBook.containsKey(employeeCheck)) {
             return employeeBook.get(employeeCheck);
@@ -55,12 +55,12 @@ public class EmployeeService {
         throw new EmployeeNotFoundException();
     }
 
-    public static void checkInput(String firstName, String lastName) {
+    public  void checkInput(String firstName, String lastName) {
         if (!StringUtils.isAlpha(firstName) || !StringUtils.isAlpha(lastName)) {
             throw new InvalidArgumentException();
         }
     }
-    public static String createKey(String firstName, String lastName) {
+    public  String createKey(String firstName, String lastName) {
         return StringUtils.capitalize(firstName.toLowerCase()) + " " +
                 StringUtils.capitalize(lastName.toLowerCase());
     }

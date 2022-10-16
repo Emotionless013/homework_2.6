@@ -9,66 +9,72 @@ import pro.sky.homework_2_6.exeptions.InvalidArgumentException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EmployeeServiceTest {
+    public final EmployeeService employeeService;
 
     Employee defaultEmployee = new Employee("Ivan", "Ivanov", 1, 1000);
+
+    public EmployeeServiceTest(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
     @BeforeEach
     public void addDefaultEmployee() {
-        EmployeeService.getEmployeeBook().put("Ivan Ivanov", defaultEmployee);
+        employeeService.getEmployeeBook().put("Ivan Ivanov", defaultEmployee);
     }
 
     @Test
     public void addNewEmployee() {
         Employee checkEmployee = new Employee("Petr", "Petrov", 1, 2000);
         assertEquals(checkEmployee,
-                EmployeeService.addEmployee("Petr", "Petrov", 1, 2000));
+                employeeService.addEmployee("Petr", "Petrov", 1, 2000));
     }
 
     @Test
     public void getExceptionTryingToAddEmployeeThatAlreadyExists() {
         assertThrows(EmployeeAlreadyAddedException.class, () ->
-                EmployeeService.addEmployee("Ivan", "Ivanov", 1, 1000));
+                employeeService.addEmployee("Ivan", "Ivanov", 1, 1000));
     }
 
     @Test
     public void checkInputIsCorrect() {
-        assertDoesNotThrow(() -> EmployeeService.checkInput("petr", "petrov"));
+        assertDoesNotThrow(() -> employeeService.checkInput("petr", "petrov"));
     }
 
     @Test
     public void checkInputThrowsInvalidArgumentException() {
         assertThrows(InvalidArgumentException.class, () ->
-                EmployeeService.checkInput("petr", "pe1trov"));
+                employeeService.checkInput("petr", "pe1trov"));
         assertThrows(InvalidArgumentException.class, () ->
-                EmployeeService.checkInput("pe1tr", "petrov"));
+                employeeService.checkInput("pe1tr", "petrov"));
     }
 
     @Test
     public void createKeyIsCorrect() {
         assertEquals("Petr Petrov",
-                EmployeeService.createKey("petr", "PetrOv"));
+                employeeService.createKey("petr", "PetrOv"));
     }
 
     @Test
     public void removeEmployeeCorrectly() {
         assertEquals(defaultEmployee,
-                EmployeeService.removeEmployee("ivan", "Ivanov"));
+                employeeService.removeEmployee("ivan", "Ivanov"));
     }
 
     @Test
     public void getExceptionTryingToRemoveEmployeeThatDoesntExists() {
         assertThrows(EmployeeNotFoundException.class, () ->
-                EmployeeService.removeEmployee("petr", "PetrOv"));
+                employeeService.removeEmployee("petr", "PetrOv"));
     }
 
     @Test
     public void findEmployeeCorrectly() {
         assertEquals(defaultEmployee,
-                EmployeeService.findEmployee("ivan", "Ivanov"));
+                employeeService.findEmployee("ivan", "Ivanov"));
     }
 
     @Test
     public void getExceptionTryingToFindEmployeeThatDoesntExists() {
         assertThrows(EmployeeNotFoundException.class, () ->
-                EmployeeService.findEmployee("petr", "PetrOv"));
+                employeeService.findEmployee("petr", "PetrOv"));
     }
 }
