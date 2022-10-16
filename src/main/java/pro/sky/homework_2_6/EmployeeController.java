@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
-import static pro.sky.homework_2_6.EmployeeService.employeeBook;
 
 
 @RestController
@@ -20,7 +19,7 @@ public class EmployeeController {
 
     @RequestMapping("/add")
     public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName,
-                                @RequestParam int departmentID, @RequestParam double employeeSalary) throws Exception {
+                                @RequestParam int departmentID, @RequestParam double employeeSalary) {
             EmployeeService.checkInput(firstName, lastName);
             return EmployeeService.addEmployee(firstName, lastName, departmentID, employeeSalary);
     }
@@ -39,6 +38,6 @@ public class EmployeeController {
 
     @RequestMapping("/printlist")
     public HashMap<String, Employee> printList() {
-        return (HashMap<String, Employee>) employeeBook;
+        return (HashMap<String, Employee>) EmployeeService.getEmployeeBook();
     }
 }

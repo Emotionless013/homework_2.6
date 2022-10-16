@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.homework_2_6.exeptions.EmployeeAlreadyAddedException;
 import pro.sky.homework_2_6.exeptions.EmployeeNotFoundException;
-import pro.sky.homework_2_6.exeptions.InvalidArgumentExeption;
+import pro.sky.homework_2_6.exeptions.InvalidArgumentException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -12,9 +12,18 @@ import java.util.stream.Collectors;
 @Service
 public class EmployeeService {
 
-    static Map<String, Employee> employeeBook = new HashMap<>(2);
+    public static Map<String, Employee> employeeBook = new HashMap<>(2);
 
-    public static Employee getEmployee(String fullName) {
+
+    public static Map<String, Employee> getEmployeeBook() {
+        return employeeBook;
+    }
+
+    public static Collection<Employee> getValues() {
+        return getEmployeeBook().values();
+    }
+
+    private static Employee getEmployee(String fullName) {
         return employeeBook.get(fullName);
     }
 
@@ -47,8 +56,8 @@ public class EmployeeService {
     }
 
     public static void checkInput(String firstName, String lastName) {
-        if (!StringUtils.isAlpha(firstName) && !StringUtils.isAlpha(lastName)) {
-            throw new InvalidArgumentExeption();
+        if (!StringUtils.isAlpha(firstName) || !StringUtils.isAlpha(lastName)) {
+            throw new InvalidArgumentException();
         }
     }
     public static String createKey(String firstName, String lastName) {
